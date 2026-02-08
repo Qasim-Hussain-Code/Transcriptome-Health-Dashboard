@@ -7,7 +7,7 @@ A professional Bioinformatics QC pipeline for assessing RNA-Seq data quality. Th
 * **Scale:** 60,660 Genes x 425 Patients
 * **Goal:** Diagnose sequencing depth and library complexity before downstream AI analysis.
 
-## Key Results (Generated Dashboards)
+## Key Results
 
 ### 1. Library Size Distribution
 *This histogram proves that all patients exceed the minimum threshold of 20 Million reads (Red Line). The "Bell Curve" shape indicates consistent sequencing depth across the cohort.*
