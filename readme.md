@@ -24,7 +24,7 @@ This pipeline performs comprehensive quality control analysis for bulk RNA-Seq d
 ### Dataset Characteristics
 
 - **Source:** TCGA-LIHC (The Cancer Genome Atlas - Liver Hepatocellular Carcinoma)
-- **Dimensions:** 60,660 genes × 424 samples
+- **Dimensions:** 60,660 genes x 424 samples
 - **Purpose:** Assessment of sequencing depth and library complexity prior to downstream analysis
 
 ---
@@ -142,12 +142,12 @@ create_interactive_dashboard(dataset, output_dir="output/")
 **Formula:**
 
 ```
-MT% = (Σ MT-gene counts / Total counts) × 100
+MT% = (Sum of MT-gene counts / Total counts) x 100
 ```
 
 **Threshold:** Maximum 20% recommended.
 
-**Interpretation:** Elevated mitochondrial content suggests cytoplasmic RNA loss due to cell membrane rupture during sample preparation. This metric is particularly relevant for single-cell applications but provides useful QC information for bulk RNA-seq.
+**Interpretation:** Elevated mitochondrial content suggests cytoplasmic RNA loss due to cell membrane rupture during sample preparation.
 
 **Note:** The TCGA-LIHC dataset uses Ensembl gene identifiers rather than gene symbols, therefore MT-gene detection requires identifier mapping for accurate quantification.
 
@@ -200,7 +200,7 @@ Transcriptome-Health-Dashboard/
 │   └── test_loading.py
 ├── data/
 │   └── TCGA_LIHC_Gene_Expression.csv
-├── output/
+├── results/
 │   ├── dashboard.html
 │   ├── qc_metrics.csv
 │   ├── failed_samples.csv
@@ -216,7 +216,7 @@ Transcriptome-Health-Dashboard/
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `--input`, `-i` | Required | Path to expression CSV (genes × samples) |
+| `--input`, `-i` | Required | Path to expression CSV (genes x samples) |
 | `--output`, `-o` | Required | Output directory |
 | `--lib-threshold` | 20,000,000 | Minimum library size threshold |
 | `--mt-threshold` | 20.0 | Maximum mitochondrial percentage |
@@ -260,13 +260,13 @@ All 38 tests pass successfully.
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| pandas | ≥2.0.0 | Data manipulation |
-| numpy | ≥1.24.0 | Numerical operations |
-| scikit-learn | ≥1.3.0 | PCA, StandardScaler |
-| plotly | ≥5.18.0 | Interactive visualizations |
-| matplotlib | ≥3.8.0 | Static plots |
-| seaborn | ≥0.13.0 | Statistical visualizations |
-| pytest | ≥7.4.0 | Unit testing |
+| pandas | >=2.0.0 | Data manipulation |
+| numpy | >=1.24.0 | Numerical operations |
+| scikit-learn | >=1.3.0 | PCA, StandardScaler |
+| plotly | >=5.18.0 | Interactive visualizations |
+| matplotlib | >=3.8.0 | Static plots |
+| seaborn | >=0.13.0 | Statistical visualizations |
+| pytest | >=7.4.0 | Unit testing |
 
 ---
 
