@@ -49,7 +49,7 @@ GRADIENT_PCA = "Turbo"            # For PCA
 GRADIENT_MT = "RdYlGn_r"          # For MT content (red=bad, green=good)
 
 
-def create_dark_theme() -> Dict[str, Any]:
+def create_dark_theme():
     """Create a consistent dark theme for all plots."""
     return {
         "paper_bgcolor": COLORS["background"],
@@ -787,9 +787,64 @@ def plot_library_sizes(qc_df: pd.DataFrame, output_dir: str) -> str:
     return path
 
 
-def plot_detected_genes(qc_df: pd.DataFrame, output_dir: str) -> str:
-    """Legacy static plot - redirects to interactive version."""
-    fig = plot_detected_genes_interactive(qc_df)
-    path = os.path.join(output_dir, "qc_detected_genes.html")
-    fig.write_html(path)
     return path
+
+def generate_responsive_figures(dataset: 'RNASeqDataset', output_dir: str):
+    """Generate both HTML and static PNG figures for documentation."""
+    os.makedirs(output_dir, exist_ok=True)
+    
+    if dataset.qc_metrics is None:
+        dataset.calculate_qc_metrics()
+    
+    # Library Size
+    fig = plot_library_sizes_interactive(dataset.qc_metrics)
+    fig.write_html(os.path.join(output_dir, "library_size.html"))
+    try:
+        fig.write_image(os.path.join(output_dir, "library_size.png"), scale=2)
+    except Exception as e:
+        print(f"Could not save static image: {e}")
+
+    # Detected Genes
+    fig = plot_detected_genes_interactive(dataset.qc_metrics)
+    fig.write_html(os.path.join(output_dir, "detected_genes.html"))
+    try:
+        fig.write_image(os.path.join(output_dir, "detected_genes.png"), scale=2)
+    except Exception as e:
+        print(f"Could not save static image: {e}")
+
+    # MT Content - ensure function exists or use interactive one? 
+    # The interactive one is plot_mt_content_interactive
+    fig = plot_mt_content_interactive(dataset.qc_metrics)
+    fig.write_html(os.path.join(output_dir, "mt_content.html"))
+    try:
+        fig.write_image(os.path.join(output_dir, "mt_content.png"), scale=2)
+    except Exception as e:
+        print(f"Could not save static image: {e}")
+
+    # PCA
+    if dataset.pca_results:
+        fig = plot_pca_interactive(
+            dataset.pca_results["coordinates"],
+            dataset.pca_results["explained_variance"],
+            dataset.sample_ids
+        )
+        fig.write_html(os.path.join(output_dir, "pca.html"))
+        try:
+            fig.write_image(os.path.join(output_dir, "pca.png"), scale=2)
+        except Exception as e:
+            print(f"Could not save static image: {e}")
+
+if __name__ == "__main__":
+    from dataset import RNASeqDataset
+    # Mock data loading for visualization generation if needed, or load real data
+    # Assuming we run this from root with data/TCGA...
+    data_path = "data/TCGA_LIHC_Gene_Expression.csv"
+    if os.path.exists(data_path):
+        ds = RNASeqDataset(data_path)
+        print("Loading data...")
+        ds.load_data(data_path)
+        print("Generating figures...")
+        generate_responsive_figures(ds, "results")
+        print("Done.")
+    else:
+        print("Data file not found.")
