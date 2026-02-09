@@ -2,7 +2,6 @@
 
 A **professional-grade** RNA-Seq quality control and analysis pipeline with biologically-rigorous normalization, interactive visualizations, and comprehensive sample QC metrics.
 
-<<<<<<< HEAD
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)
@@ -18,11 +17,11 @@ A **professional-grade** RNA-Seq quality control and analysis pipeline with biol
 *This histogram proves that all patients exceed the minimum threshold of 20 Million reads (Red Line). The "Bell Curve" shape indicates consistent sequencing depth across the cohort.*
 
 ![Library Size Distribution](output/qc_library_sizes.png)
->>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
+52302d662e677b781c3fd885544425ccd471bc4a
 
 ---
 
-## 🧬 Overview
+## Overview
 
 This pipeline performs comprehensive quality control analysis for bulk RNA-Seq datasets, implementing industry-standard bioinformatics practices:
 
@@ -43,7 +42,7 @@ This pipeline performs comprehensive quality control analysis for bulk RNA-Seq d
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -97,7 +96,7 @@ create_interactive_dashboard(dataset, output_dir="output/")
 
 ---
 
-## 📊 QC Metrics Explained
+## QC Metrics Explained
 
 ### 1. Library Size Distribution
 **Question:** Do all samples have sufficient sequencing depth?
@@ -143,7 +142,7 @@ This typically reduces 60,000 genes to ~15,000-20,000 informative genes.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Transcriptome-Health-Dashboard/
@@ -174,7 +173,7 @@ Transcriptome-Health-Dashboard/
 
 ---
 
-## 🔧 CLI Options
+## CLI Options
 
 | Argument | Default | Description |
 |----------|---------|-------------|
@@ -189,7 +188,7 @@ Transcriptome-Health-Dashboard/
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -204,7 +203,7 @@ pytest tests/test_normalization.py -v
 
 ---
 
-## 📦 Dependencies
+## Dependencies
 
 | Package | Version | Purpose |
 |---------|---------|---------|
@@ -218,7 +217,7 @@ pytest tests/test_normalization.py -v
 
 ---
 
-## 📝 Output Files
+## Output Files
 
 | File | Description |
 |------|-------------|
@@ -232,7 +231,7 @@ pytest tests/test_normalization.py -v
 
 ---
 
-## 🎯 Key Results
+## Key Results
 
 ### Library Size Distribution
 *All patients exceed the minimum threshold of 20M reads. The bell-curve shape indicates consistent sequencing depth.*
@@ -246,7 +245,7 @@ pytest tests/test_normalization.py -v
 
 ---
 
-## 📚 References
+## References
 
 1. **CPM Normalization**: Robinson MD, Oshlack A. A scaling normalization method for differential expression analysis of RNA-seq data. *Genome Biology* (2010).
 
@@ -256,17 +255,8 @@ pytest tests/test_normalization.py -v
 
 ---
 
-## 📄 License
+## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 ---
-
-## 👤 Author
-
-**Qasim Hussain**  
-Computational Biology & Bioinformatics
-=======
-# 2. Generate Dashboard Plots
-python -m src.visualize
->>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
