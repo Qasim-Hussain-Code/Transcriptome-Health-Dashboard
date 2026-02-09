@@ -1,58 +1,74 @@
 # Transcriptome Health Dashboard v2.0
 
-A **professional-grade** RNA-Seq quality control and analysis pipeline with biologically-rigorous normalization, interactive visualizations, and comprehensive sample QC metrics.
+A professional-grade RNA-Seq quality control and analysis pipeline implementing biologically-rigorous normalization, interactive visualizations, and comprehensive sample QC metrics.
 
-<<<<<<< HEAD
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)
-=======
-## Project Overview
-* **Dataset:** TCGA-LIHC (Liver Hepatocellular Carcinoma)
-* **Scale:** 60,660 Genes x 425 Patients
-* **Goal:** Diagnose sequencing depth and library complexity before downstream AI analysis.
-
-## Key Results
-
-### 1. Library Size Distribution
-*This histogram proves that all patients exceed the minimum threshold of 20 Million reads (Red Line). The "Bell Curve" shape indicates consistent sequencing depth across the cohort.*
-
-![Library Size Distribution](output/qc_library_sizes.png)
->>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
+![Tests](https://img.shields.io/badge/Tests-38%20Passing-brightgreen.svg)
 
 ---
 
-## 🧬 Overview
+## Overview
 
 This pipeline performs comprehensive quality control analysis for bulk RNA-Seq datasets, implementing industry-standard bioinformatics practices:
 
 | Feature | Description |
 |---------|-------------|
 | **CPM Normalization** | Counts Per Million normalization for cross-sample comparability |
-| **Gene Filtering** | Remove lowly-expressed genes (noise reduction) |
-| **PCA Analysis** | Visualize sample structure and detect batch effects |
-| **Mitochondrial QC** | Flag degraded samples by MT-gene content |
-| **Outlier Detection** | Automatic flagging of failed samples |
-| **Interactive Dashboards** | Hover-enabled Plotly HTML reports |
+| **Gene Filtering** | Removal of lowly-expressed genes for noise reduction |
+| **PCA Analysis** | Sample structure visualization and batch effect detection |
+| **Mitochondrial QC** | Detection of degraded samples via MT-gene content |
+| **Outlier Detection** | Automated flagging of samples failing QC thresholds |
+| **Interactive Dashboards** | Vibrant Plotly HTML reports with gradient colorscales |
 
-### Dataset
+### Dataset Characteristics
 
-* **Source:** TCGA-LIHC (Liver Hepatocellular Carcinoma)
-* **Scale:** 60,660 Genes × 425 Patients
-* **Goal:** Diagnose sequencing depth and library complexity before downstream analysis
+- **Source:** TCGA-LIHC (The Cancer Genome Atlas - Liver Hepatocellular Carcinoma)
+- **Dimensions:** 60,660 genes × 424 samples
+- **Purpose:** Assessment of sequencing depth and library complexity prior to downstream analysis
 
 ---
 
-## 🚀 Quick Start
+## Results
 
-### Installation
+### Interactive Dashboard
+
+The pipeline generates a comprehensive interactive HTML dashboard with vibrant gradient colorscales for enhanced data visualization. Open `results/dashboard.html` in your browser to explore:
+
+| Visualization | Colorscale | Purpose |
+|--------------|------------|----------|
+| Library Size Histogram | **Viridis** (blue-green-yellow) | Sequencing depth distribution |
+| Gene Detection Scatter | **Plasma** (magenta-orange-yellow) | Library complexity per sample |
+| PCA Scatter Plot | **Turbo** (rainbow spectrum) | Sample clustering with colorbar |
+| MT Content Bar Chart | **RdYlGn_r** (green-to-red) | Sample quality indicator |
+
+All plots feature hover tooltips, zoom controls, and publication-ready aesthetics.
+
+### 1. Library Size Distribution
+
+The distribution of sequencing depth across the cohort demonstrates that 423 of 424 samples (99.8%) exceed the minimum threshold of 20 million reads. The approximately normal distribution indicates consistent sequencing depth across the cohort, with a mean of 49.0M reads and median of 48.7M reads.
+
+![Library Size Distribution](results/qc_library_sizes.png)
+
+*Figure 1. Distribution of library sizes (total mapped reads) across 424 TCGA-LIHC samples. Viridis colorscale indicates read depth gradient. The dashed red line indicates the minimum threshold of 20M reads.*
+
+### 2. Gene Detection Complexity
+
+Gene detection complexity serves as an indicator of library diversity. Samples exhibiting low gene detection may indicate RNA degradation, library preparation artifacts, or excessive PCR duplication.
+
+![Gene Detection Complexity](results/qc_detected_genes.png)
+
+*Figure 2. Distribution of detected genes (count > 0) per sample with Plasma gradient colorscale. Median detection: 28,268 genes. The interquartile range spans 26,483 to 29,702 genes.*
+
+---
+
+## Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/Qasim-Hussain/Transcriptome-Health-Dashboard.git
+git clone https://github.com/Qasim-Hussain-Code/Transcriptome-Health-Dashboard.git
 cd Transcriptome-Health-Dashboard
 
-<<<<<<< HEAD
 # Create virtual environment (recommended)
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -61,10 +77,14 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Basic Usage
+---
+
+## Usage
+
+### Command Line Interface
 
 ```bash
-# Run the complete QC pipeline
+# Basic usage
 python -m src.main --input data/TCGA_LIHC_Gene_Expression.csv --output results/
 
 # With custom thresholds
@@ -97,58 +117,75 @@ create_interactive_dashboard(dataset, output_dir="output/")
 
 ---
 
-## 📊 QC Metrics Explained
+## Quality Control Metrics
 
-### 1. Library Size Distribution
-**Question:** Do all samples have sufficient sequencing depth?
+### Library Size (Sequencing Depth)
 
-> The library size is the total count of reads per sample. Samples below 20M reads may have insufficient coverage for reliable gene expression quantification.
+**Definition:** Total count of mapped reads per sample.
 
-### 2. Gene Detection Complexity
-**Question:** Are libraries diverse or dominated by a few genes?
+**Threshold:** Minimum 20 million reads recommended for reliable gene expression quantification.
 
-> Samples should detect >15,000 genes. Low detection may indicate RNA degradation or library preparation issues.
+**Interpretation:** Samples below this threshold may exhibit reduced sensitivity for lowly-expressed genes.
 
-### 3. Mitochondrial Content (MT%)
-**Question:** Are samples degraded?
+### Gene Detection Complexity
 
-> High mitochondrial content (>20%) often indicates cell membrane rupture during sample preparation, leading to cytoplasmic RNA loss while retaining mitochondrial RNA. This is a key QC metric.
+**Definition:** Number of genes with at least one mapped read.
 
-**Formula:** `MT% = (∑ MT-gene counts / Total counts) × 100`
+**Threshold:** Minimum 15,000 detected genes.
 
-### 4. PCA - Sample Structure
-**Question:** Do samples cluster by biological condition?
+**Interpretation:** Low detection may indicate RNA degradation, over-amplification, or library preparation artifacts.
 
-> PCA reduces 60,000+ genes to 2 dimensions. Samples should cluster by disease status, not by technical factors (batch effect).
+### Mitochondrial Content
+
+**Definition:** Proportion of reads mapping to mitochondrial genes (MT-prefixed).
+
+**Formula:**
+
+```
+MT% = (Σ MT-gene counts / Total counts) × 100
+```
+
+**Threshold:** Maximum 20% recommended.
+
+**Interpretation:** Elevated mitochondrial content suggests cytoplasmic RNA loss due to cell membrane rupture during sample preparation. This metric is particularly relevant for single-cell applications but provides useful QC information for bulk RNA-seq.
+
+**Note:** The TCGA-LIHC dataset uses Ensembl gene identifiers rather than gene symbols, therefore MT-gene detection requires identifier mapping for accurate quantification.
+
+### Principal Component Analysis
+
+**Purpose:** Dimensionality reduction to visualize sample structure and identify potential batch effects or outliers.
+
+**Implementation:** PCA performed on log-transformed, filtered gene expression matrix (13,443 genes after filtering).
+
+**Result:** PC1 (20.8% variance) and PC2 (8.0% variance) together explain 28.8% of total variance.
 
 ---
 
-## 📐 Scientific Methods
+## Scientific Methods
 
 ### CPM Normalization
 
-Counts Per Million (CPM) normalization controls for sequencing depth:
+Counts Per Million (CPM) normalization adjusts for differences in sequencing depth:
 
-$$\text{CPM} = \frac{\text{counts}}{\text{total counts}} \times 10^6$$
+$$\text{CPM} = \frac{\text{raw counts}}{\text{library size}} \times 10^6$$
 
-**Why?** You cannot compare Gene X in Patient A vs. Patient B if Patient A has 50M reads and Patient B has 20M. CPM makes samples comparable.
+**Rationale:** Raw counts are not comparable across samples with different sequencing depths. CPM enables valid cross-sample comparisons.
 
 ### Gene Filtering
 
-Low-expression genes add noise without biological signal:
+Low-expression genes contribute noise without biological signal.
 
-**Rule:** Keep genes with `>1 CPM` in `≥50%` of samples
+**Criterion:** Retain genes with CPM > 1.0 in at least 50% of samples.
 
-This typically reduces 60,000 genes to ~15,000-20,000 informative genes.
+**Result:** 13,443 of 60,660 genes (22.2%) passed filtering criteria.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Transcriptome-Health-Dashboard/
 ├── src/
-│   ├── __init__.py
 │   ├── dataset.py      # Core RNASeqDataset class
 │   ├── main.py         # CLI entry point
 │   ├── visualize.py    # Interactive Plotly visualizations
@@ -159,14 +196,15 @@ Transcriptome-Health-Dashboard/
 │   ├── test_normalization.py
 │   ├── test_filtering.py
 │   ├── test_qc_metrics.py
-│   └── test_pca.py
+│   ├── test_pca.py
+│   └── test_loading.py
 ├── data/
 │   └── TCGA_LIHC_Gene_Expression.csv
 ├── output/
-│   ├── dashboard.html           # Interactive QC dashboard
-│   ├── failed_samples.csv       # Samples failing QC
-│   ├── qc_metrics.csv           # Per-sample metrics
-│   └── pca_coordinates.csv      # PCA results
+│   ├── dashboard.html
+│   ├── qc_metrics.csv
+│   ├── failed_samples.csv
+│   └── pca_coordinates.csv
 ├── requirements.txt
 ├── pyproject.toml
 └── README.md
@@ -174,14 +212,14 @@ Transcriptome-Health-Dashboard/
 
 ---
 
-## 🔧 CLI Options
+## CLI Options
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `--input`, `-i` | *Required* | Path to expression CSV |
-| `--output`, `-o` | *Required* | Output directory |
-| `--lib-threshold` | 20,000,000 | Minimum library size |
-| `--mt-threshold` | 20.0 | Maximum MT percentage |
+| `--input`, `-i` | Required | Path to expression CSV (genes × samples) |
+| `--output`, `-o` | Required | Output directory |
+| `--lib-threshold` | 20,000,000 | Minimum library size threshold |
+| `--mt-threshold` | 20.0 | Maximum mitochondrial percentage |
 | `--min-cpm` | 1.0 | CPM threshold for gene filtering |
 | `--min-samples-pct` | 0.5 | Fraction of samples for filtering |
 | `--skip-pca` | False | Skip PCA analysis |
@@ -189,7 +227,7 @@ Transcriptome-Health-Dashboard/
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -198,75 +236,57 @@ pytest tests/ -v
 # Run with coverage
 pytest tests/ --cov=src --cov-report=html
 
-# Run specific test file
+# Run specific test module
 pytest tests/test_normalization.py -v
 ```
 
----
-
-## 📦 Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| pandas | 2.1.4 | Data manipulation |
-| numpy | 1.26.2 | Numerical operations |
-| scikit-learn | 1.3.2 | PCA, StandardScaler |
-| plotly | 5.18.0 | Interactive visualizations |
-| matplotlib | 3.8.2 | Static plots |
-| seaborn | 0.13.0 | Statistical visualizations |
-| pytest | 7.4.3 | Unit testing |
+All 38 tests pass successfully.
 
 ---
 
-## 📝 Output Files
+## Output Files
 
 | File | Description |
 |------|-------------|
-| `dashboard.html` | Interactive QC dashboard with all plots |
-| `qc_metrics.csv` | Library size, detected genes, MT% per sample |
-| `failed_samples.csv` | Samples failing QC thresholds with reasons |
-| `pca_coordinates.csv` | PC1, PC2 coordinates for each sample |
+| `dashboard.html` | Interactive QC dashboard with all visualizations |
+| `qc_metrics.csv` | Per-sample metrics (library size, detected genes, MT%) |
+| `failed_samples.csv` | Samples failing QC thresholds with failure reasons |
+| `pca_coordinates.csv` | Principal component coordinates per sample |
 | `pipeline.log` | Detailed execution log |
-| `*.html` | Individual interactive plots |
-| `*.png` | Static plots (backward compatibility) |
 
 ---
 
-## 🎯 Key Results
+## Dependencies
 
-### Library Size Distribution
-*All patients exceed the minimum threshold of 20M reads. The bell-curve shape indicates consistent sequencing depth.*
-
-![Library Size](output/qc_library_sizes.png)
-
-### Gene Detection Complexity
-*No samples show extreme dropout, confirming high-quality libraries.*
-
-![Detected Genes](output/qc_detected_genes.png)
-
----
-
-## 📚 References
-
-1. **CPM Normalization**: Robinson MD, Oshlack A. A scaling normalization method for differential expression analysis of RNA-seq data. *Genome Biology* (2010).
-
-2. **Gene Filtering**: Chen Y, Lun AT, Smyth GK. From reads to genes to pathways: differential expression analysis of RNA-Seq experiments using Rsubread and the edgeR quasi-likelihood pipeline. *F1000Research* (2016).
-
-3. **MT Content as QC**: Luecken MD, Theis FJ. Current best practices in single-cell RNA-seq analysis: a tutorial. *Molecular Systems Biology* (2019).
+| Package | Version | Purpose |
+|---------|---------|---------|
+| pandas | ≥2.0.0 | Data manipulation |
+| numpy | ≥1.24.0 | Numerical operations |
+| scikit-learn | ≥1.3.0 | PCA, StandardScaler |
+| plotly | ≥5.18.0 | Interactive visualizations |
+| matplotlib | ≥3.8.0 | Static plots |
+| seaborn | ≥0.13.0 | Statistical visualizations |
+| pytest | ≥7.4.0 | Unit testing |
 
 ---
 
-## 📄 License
+## References
+
+1. Robinson MD, Oshlack A. (2010). A scaling normalization method for differential expression analysis of RNA-seq data. *Genome Biology*, 11(3), R25.
+
+2. Chen Y, Lun AT, Smyth GK. (2016). From reads to genes to pathways: differential expression analysis of RNA-Seq experiments using Rsubread and the edgeR quasi-likelihood pipeline. *F1000Research*, 5, 1438.
+
+3. Luecken MD, Theis FJ. (2019). Current best practices in single-cell RNA-seq analysis: a tutorial. *Molecular Systems Biology*, 15(6), e8746.
+
+---
+
+## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-## 👤 Author
+## Author
 
 **Qasim Hussain**  
-Computational Biology & Bioinformatics
-=======
-# 2. Generate Dashboard Plots
-python -m src.visualize
->>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
+Computational Biology and Bioinformatics

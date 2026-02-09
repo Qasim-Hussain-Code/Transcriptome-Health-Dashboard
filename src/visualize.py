@@ -26,17 +26,27 @@ if TYPE_CHECKING:
     from .dataset import RNASeqDataset
 
 
-# Color palette for consistent theming
+# Vibrant color palette for scientific visualization
 COLORS = {
-    "primary": "#00A6A6",      # Teal
-    "secondary": "#7B68EE",    # Medium Slate Blue
-    "warning": "#FF6B6B",      # Coral Red
-    "success": "#4CAF50",      # Green
-    "background": "#1a1a2e",   # Dark navy
-    "surface": "#16213e",      # Darker navy
-    "text": "#EAEAEA",         # Light gray
-    "grid": "#2d3a4d"          # Muted grid
+    "primary": "#00D4FF",       # Bright Cyan
+    "secondary": "#FF6B9D",     # Vibrant Pink/Magenta
+    "tertiary": "#FFB347",      # Warm Orange
+    "quaternary": "#9B59B6",    # Rich Purple
+    "warning": "#FF4757",       # Bright Red
+    "success": "#2ED573",       # Vibrant Green
+    "background": "#0D1117",    # GitHub Dark
+    "surface": "#161B22",       # Elevated surface
+    "text": "#F0F6FC",          # Bright text
+    "grid": "#30363D",          # Subtle grid
+    "gradient_start": "#667EEA", # Blue-purple
+    "gradient_end": "#764BA2"    # Purple
 }
+
+# Colorful gradient scales for different plot types
+GRADIENT_LIBRARY = "Viridis"      # For library size
+GRADIENT_GENES = "Plasma"         # For detected genes  
+GRADIENT_PCA = "Turbo"            # For PCA
+GRADIENT_MT = "RdYlGn_r"          # For MT content (red=bad, green=good)
 
 
 def create_dark_theme() -> Dict[str, Any]:
@@ -61,7 +71,7 @@ def create_dark_theme() -> Dict[str, Any]:
 def plot_library_sizes_interactive(
     qc_df: pd.DataFrame,
     threshold: int = 20_000_000,
-    title: str = "Library Size Distribution"
+    title: str = "Distribution of Sequencing Depth Across Samples"
 ) -> go.Figure:
     """
     Create an interactive histogram of library sizes.
@@ -81,13 +91,17 @@ def plot_library_sizes_interactive(
     """
     fig = go.Figure()
     
-    # Main histogram
+    # Main histogram with gradient color
     fig.add_trace(go.Histogram(
         x=qc_df["Library_Size"],
         nbinsx=30,
         name="Samples",
-        marker_color=COLORS["primary"],
-        opacity=0.8,
+        marker=dict(
+            color=qc_df["Library_Size"],
+            colorscale="Viridis",
+            line=dict(width=1, color=COLORS["text"])
+        ),
+        opacity=0.9,
         hovertemplate="<b>Library Size:</b> %{x:,.0f}<br><b>Count:</b> %{y}<extra></extra>"
     ))
     
@@ -146,7 +160,7 @@ def plot_library_sizes_interactive(
 
 def plot_detected_genes_interactive(
     qc_df: pd.DataFrame,
-    title: str = "Gene Detection Complexity"
+    title: str = "Gene Detection Complexity per Sample"
 ) -> go.Figure:
     """
     Create an interactive boxplot with strip overlay for detected genes.
@@ -169,27 +183,31 @@ def plot_detected_genes_interactive(
     
     fig = go.Figure()
     
-    # Box plot
+    # Box plot with vibrant color
     fig.add_trace(go.Box(
         y=df["Detected_Genes"],
         name="Distribution",
         marker_color=COLORS["secondary"],
+        fillcolor="rgba(255, 107, 157, 0.3)",  # Translucent pink
+        line=dict(color=COLORS["secondary"], width=2),
         boxmean="sd",
         boxpoints="outliers",
         jitter=0.3,
         hovertemplate="<b>Detected Genes:</b> %{y:,.0f}<extra></extra>"
     ))
     
-    # Overlay strip chart with sample IDs
+    # Overlay strip chart with gradient colors based on gene count
     fig.add_trace(go.Scatter(
         y=df["Detected_Genes"],
         x=np.random.normal(0, 0.04, len(df)),  # Jitter
         mode="markers",
         name="Samples",
         marker=dict(
-            color=COLORS["primary"],
-            size=6,
-            opacity=0.6
+            color=df["Detected_Genes"],
+            colorscale="Plasma",
+            size=8,
+            opacity=0.8,
+            line=dict(width=1, color="white")
         ),
         text=df["Sample_ID"],
         hovertemplate="<b>Sample:</b> %{text}<br><b>Detected Genes:</b> %{y:,.0f}<extra></extra>"
@@ -240,7 +258,7 @@ def plot_pca_interactive(
     sample_ids: List[str],
     metadata: Optional[pd.DataFrame] = None,
     color_by: Optional[str] = None,
-    title: str = "PCA - Sample Structure"
+    title: str = "Principal Component Analysis of Sample Expression Profiles"
 ) -> go.Figure:
     """
     Create an interactive PCA scatter plot.
@@ -279,16 +297,20 @@ def plot_pca_interactive(
             color_discrete_sequence=px.colors.qualitative.Set2
         )
     else:
+        # Color by PC1 value for gradient effect
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             x=df["PC1"],
             y=df["PC2"],
             mode="markers",
             marker=dict(
-                color=COLORS["primary"],
-                size=10,
-                opacity=0.7,
-                line=dict(width=1, color=COLORS["text"])
+                color=df["PC1"],
+                colorscale="Turbo",
+                size=12,
+                opacity=0.85,
+                line=dict(width=1, color="white"),
+                showscale=True,
+                colorbar=dict(title="PC1", thickness=15)
             ),
             text=df["Sample_ID"],
             hovertemplate=(
@@ -332,7 +354,7 @@ def plot_pca_interactive(
 def plot_mt_content_interactive(
     qc_df: pd.DataFrame,
     threshold: float = 20.0,
-    title: str = "Mitochondrial Content per Sample"
+    title: str = "Mitochondrial Gene Expression as Percentage of Total Reads"
 ) -> go.Figure:
     """
     Create an interactive bar chart of mitochondrial percentage.
@@ -357,18 +379,17 @@ def plot_mt_content_interactive(
     # Sort by MT percentage
     df = df.sort_values("MT_Percentage", ascending=False)
     
-    # Color based on threshold
-    colors = [
-        COLORS["warning"] if mt > threshold else COLORS["primary"]
-        for mt in df["MT_Percentage"]
-    ]
-    
+    # Use gradient based on MT value - green to red scale
     fig = go.Figure()
     
     fig.add_trace(go.Bar(
         x=list(range(len(df))),
         y=df["MT_Percentage"],
-        marker_color=colors,
+        marker=dict(
+            color=df["MT_Percentage"],
+            colorscale="RdYlGn_r",  # Red-Yellow-Green reversed (green=low, red=high)
+            line=dict(width=1, color="white")
+        ),
         text=df["Sample_ID"],
         hovertemplate=(
             "<b>Sample:</b> %{text}<br>"
@@ -640,8 +661,8 @@ def create_interactive_dashboard(
 </head>
 <body>
     <div class="dashboard-header">
-        <h1>🧬 RNA-Seq Quality Control Dashboard</h1>
-        <p>Comprehensive QC Analysis • {len(dataset.sample_ids)} Samples • {len(dataset.gene_ids):,} Genes</p>
+        <h1>RNA-Seq Quality Control Dashboard</h1>
+        <p>Transcriptome Health Assessment | n = {len(dataset.sample_ids)} samples | {len(dataset.gene_ids):,} genes</p>
     </div>
     
     <div class="stats-summary">
@@ -651,19 +672,19 @@ def create_interactive_dashboard(
         </div>
         <div class="stat-card">
             <div class="stat-value">{len(dataset.filtered_genes):,}</div>
-            <div class="stat-label">Filtered Genes</div>
+            <div class="stat-label">Expressed Genes</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">{qc_df["Library_Size"].mean()/1e6:.1f}M</div>
-            <div class="stat-label">Avg Library Size</div>
+            <div class="stat-label">Mean Sequencing Depth</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">{qc_df["Detected_Genes"].mean():,.0f}</div>
-            <div class="stat-label">Avg Detected Genes</div>
+            <div class="stat-label">Mean Gene Detection</div>
         </div>
         <div class="stat-card">
             <div class="stat-value" style="color: {COLORS["warning"] if (qc_df["Library_Size"] < lib_threshold).sum() > 0 else COLORS["success"]}">{(qc_df["Library_Size"] < lib_threshold).sum()}</div>
-            <div class="stat-label">Failed Samples</div>
+            <div class="stat-label">QC-Failed Samples</div>
         </div>
     </div>
     
@@ -688,7 +709,7 @@ def create_interactive_dashboard(
     </div>
     
     <div class="footer">
-        <p>Generated by Transcriptome Health Dashboard v2.0 • Python {'.'.join(map(str, __import__('sys').version_info[:3]))}</p>
+        <p>Generated by Transcriptome Health Dashboard v2.0</p>
     </div>
 </body>
 </html>'''

@@ -68,6 +68,7 @@ venv.bak/
 
 # Output files (generated, can be reproduced)
 output/
+results/
 *.html
 !readme.md
 
