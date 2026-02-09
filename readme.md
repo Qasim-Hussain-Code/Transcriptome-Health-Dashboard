@@ -2,9 +2,23 @@
 
 A **professional-grade** RNA-Seq quality control and analysis pipeline with biologically-rigorous normalization, interactive visualizations, and comprehensive sample QC metrics.
 
+<<<<<<< HEAD
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)
+=======
+## Project Overview
+* **Dataset:** TCGA-LIHC (Liver Hepatocellular Carcinoma)
+* **Scale:** 60,660 Genes x 425 Patients
+* **Goal:** Diagnose sequencing depth and library complexity before downstream AI analysis.
+
+## Key Results
+
+### 1. Library Size Distribution
+*This histogram proves that all patients exceed the minimum threshold of 20 Million reads (Red Line). The "Bell Curve" shape indicates consistent sequencing depth across the cohort.*
+
+![Library Size Distribution](output/qc_library_sizes.png)
+>>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
 
 ---
 
@@ -38,6 +52,7 @@ This pipeline performs comprehensive quality control analysis for bulk RNA-Seq d
 git clone https://github.com/Qasim-Hussain/Transcriptome-Health-Dashboard.git
 cd Transcriptome-Health-Dashboard
 
+<<<<<<< HEAD
 # Create virtual environment (recommended)
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -251,3 +266,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 **Qasim Hussain**  
 Computational Biology & Bioinformatics
+=======
+# 2. Generate Dashboard Plots
+python -m src.visualize
+>>>>>>> 52302d662e677b781c3fd885544425ccd471bc4a
