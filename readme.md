@@ -48,7 +48,7 @@ All plots feature hover tooltips, zoom controls, and publication-ready aesthetic
 
 The distribution of sequencing depth across the cohort demonstrates that 423 of 424 samples (99.8%) exceed the minimum threshold of 20 million reads. The approximately normal distribution indicates consistent sequencing depth across the cohort, with a mean of 49.0M reads and median of 48.7M reads.
 
-![Library Size Distribution](results/qc_library_sizes.png)
+![Library Size Distribution](assets/qc_library_sizes.png)
 
 *Figure 1. Distribution of library sizes (total mapped reads) across 424 TCGA-LIHC samples. Viridis colorscale indicates read depth gradient. The dashed red line indicates the minimum threshold of 20M reads.*
 
@@ -56,7 +56,7 @@ The distribution of sequencing depth across the cohort demonstrates that 423 of 
 
 Gene detection complexity serves as an indicator of library diversity. Samples exhibiting low gene detection may indicate RNA degradation, library preparation artifacts, or excessive PCR duplication.
 
-![Gene Detection Complexity](results/qc_detected_genes.png)
+![Gene Detection Complexity](assets/qc_detected_genes.png)
 
 *Figure 2. Distribution of detected genes (count > 0) per sample with Plasma gradient colorscale. Median detection: 28,268 genes. The interquartile range spans 26,483 to 29,702 genes.*
 
