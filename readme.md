@@ -17,7 +17,7 @@ A **professional-grade** RNA-Seq quality control and analysis pipeline with biol
 *This histogram proves that all patients exceed the minimum threshold of 20 Million reads (Red Line). The "Bell Curve" shape indicates consistent sequencing depth across the cohort.*
 
 ![Library Size Distribution](output/qc_library_sizes.png)
-52302d662e677b781c3fd885544425ccd471bc4a
+
 
 ---
 
