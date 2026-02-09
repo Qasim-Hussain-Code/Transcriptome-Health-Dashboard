@@ -5,6 +5,7 @@ A professional-grade RNA-Seq quality control and analysis pipeline implementing 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Tests](https://img.shields.io/badge/Tests-38%20Passing-brightgreen.svg)
+[![Kaggle](https://img.shields.io/badge/Kaggle-Demo_Notebook-20BEFF?logo=kaggle)](https://www.kaggle.com/datasets/qasimhu/tcgatcga-lihc-viral-status-and-transcriptome)
 
 ---
 
@@ -67,8 +68,6 @@ PCA reveals sample structure and potential batch effects. PC1 and PC2 together e
 ![PCA Analysis](assets/qc_pca.png)
 
 *Figure 3. PCA scatter plot of TCGA-LIHC samples colored by PC1 score using Turbo colormap. PC1 (20.8% variance) and PC2 (8.0% variance) capture the major sources of variation.*
-
-> **Interactive Dashboard:** Clone this repository and open `results/dashboard.html` in your browser for full interactive visualizations with hover tooltips, zoom, and pan controls.
 
 ---
 
@@ -289,14 +288,3 @@ All 38 tests pass successfully.
 3. Luecken MD, Theis FJ. (2019). Current best practices in single-cell RNA-seq analysis: a tutorial. *Molecular Systems Biology*, 15(6), e8746.
 
 ---
-
-## License
-
-MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-## Author
-
-**Qasim Hussain**  
-Computational Biology and Bioinformatics
