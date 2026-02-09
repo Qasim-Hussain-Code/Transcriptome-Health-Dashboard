@@ -7,6 +7,9 @@ A professional-grade RNA-Seq quality control and analysis pipeline implementing 
 ![Tests](https://img.shields.io/badge/Tests-38%20Passing-brightgreen.svg)
 [![Kaggle](https://img.shields.io/badge/Kaggle-Demo_Notebook-20BEFF?logo=kaggle)](https://www.kaggle.com/datasets/qasimhu/tcgatcga-lihc-viral-status-and-transcriptome)
 
+![PCA Overview](assets/qc_pca.png)
+*Principal Component Analysis of 424 TCGA-LIHC samples visualizing transcriptomic structure.*
+
 ---
 
 ## Overview
@@ -61,13 +64,7 @@ Gene detection complexity serves as an indicator of library diversity. Samples e
 
 *Figure 2. Distribution of detected genes (count > 0) per sample with Plasma gradient colorscale. Median detection: 28,268 genes. The interquartile range spans 26,483 to 29,702 genes.*
 
-### 3. Principal Component Analysis
 
-PCA reveals sample structure and potential batch effects. PC1 and PC2 together explain 28.8% of total variance, with samples showing no extreme outliers in the transformed space.
-
-![PCA Analysis](assets/qc_pca.png)
-
-*Figure 3. PCA scatter plot of TCGA-LIHC samples colored by PC1 score using Turbo colormap. PC1 (20.8% variance) and PC2 (8.0% variance) capture the major sources of variation.*
 
 ---
 
