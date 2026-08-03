@@ -5,7 +5,7 @@ A professional-grade RNA-Seq quality control and analysis pipeline implementing 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Tests](https://img.shields.io/badge/Tests-38%20Passing-brightgreen.svg)
-[![Kaggle](https://img.shields.io/badge/Kaggle-Demo_Notebook-20BEFF?logo=kaggle)](https://www.kaggle.com/code/qasimhu/transcriptome-health-dashboard)
+[![Hugging Face Demo Assets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo%20Assets-yellow.svg)](https://huggingface.co/datasets/QasimHussain/transcriptome-health-dashboard-demo/blob/main/Transcriptome_Health_Dashboard_Demo.ipynb)
 
 ![PCA Overview](assets/qc_pca.png)
 *Principal Component Analysis of 424 TCGA-LIHC samples visualizing transcriptomic structure.*
